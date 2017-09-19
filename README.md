@@ -1,7 +1,7 @@
 # diet-connect
 Compatibility layer for using Connect middleware in diet apps
 
-Use your favorite Connect middleware out of the box
+Use your favorite Express middleware out of the box
 
 ```javascript
 const compatible = require('diet-connect')
