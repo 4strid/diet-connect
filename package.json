@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/cutejs/diet-connect#readme",
   "dependencies": {
-    "mixin-object": "^3.0.0",
-    "object-diff": "0.0.4"
+    "mixin-object": "^3.0.0"
   }
 }
