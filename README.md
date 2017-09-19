@@ -29,3 +29,5 @@ app.get('/', function ($) {
 ```
 
 Let me know if it doesn't work for a certain middleware.
+
+[Examples](https://github.com/cutejs/diet-connect-example)
