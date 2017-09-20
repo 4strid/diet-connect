@@ -20,15 +20,15 @@ const session = require('express-session')
 app.header(compatible(session(options)))
 
 app.get('/counter', function ($) {
-	$.session.views = $.session.views || 0;
-	$.session.views++;
+	$.session.views = $.session.views || 0
+	$.session.views++
 	$.end('you have viewed this page ' + $.session.views + ' times')
 })
 // refresh the page to see the counter go up
 ```
 
 
-If attaching it all to the signal is problematic, you can use safe mode to proxy to $.req and $.res objects instead
+If attaching it all to the signal is problematic, you can use safe mode to proxy to $.req object instead
 
 ```javascript
 const compatible = require('diet-connect').safe
@@ -38,7 +38,7 @@ const fooware = function (req, res, next) {
 	next()
 }
 
-app.header(compatible(fooMiddleware))
+app.header(compatible(fooware))
 
 app.get('/', function ($) {
 	$.end($.req.foo)
