@@ -1,33 +1,49 @@
 # diet-connect
-Compatibility layer for using Connect middleware in diet apps
+Compatibility layer for using Connect/Express middleware in diet apps
 
 Use your favorite Express middleware out of the box
 
 ```javascript
 const compatible = require('diet-connect')
 const logger = require('morgan')
-const session = require('express-session')
+const serve = require('express-static')
 ...
 app.header(compatible(logger('dev')))
-app.header(compatible(session(options, store)))
+app.header(compatible(serve(app.path + 'static')))
 ```
 
-Proxies any assignment to req object by middleware to signal object ($)
+Proxies any assignment to req object by middleware to signal object ($) (by default)
+For example, using express session usually adds .session to req; here it's attached to $
 
 ```javascript
-const fooMiddleware = function (req, res, next) {
-	req.foo = 'bar';
-	next();
+const session = require('express-session')
+app.header(compatible(session(options)))
+
+app.get('/counter', function ($) {
+	$.session.views = $.session.views || 0;
+	$.session.views++;
+	$.end('you have viewed this page ' + $.session.views + ' times')
+})
+// refresh the page to see the counter go up
+```
+
+
+If attaching it all to the signal is problematic, you can use safe mode to proxy to $.req and $.res objects instead
+
+```javascript
+const compatible = require('diet-connect').safe
+
+const fooware = function (req, res, next) {
+	req.foo = 'bar'
+	next()
 }
 
 app.header(compatible(fooMiddleware))
 
 app.get('/', function ($) {
-	$.end($.foo)
+	$.end($.req.foo)
 	// sends 'bar'
 })
 ```
-
-Let me know if it doesn't work for a certain middleware.
 
 [Examples](https://github.com/cutejs/diet-connect-example)

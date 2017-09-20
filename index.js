@@ -1,23 +1,29 @@
 /*
  * @param {function} middleware - connect style, (req, res, next)
  * @return {function} middleware - dietjs style ($)
+ * Proxies the signal object
  */
-function compatible (middleware) {
+function compatible (middleware, safe) {
 	return function ($) {
-		// clone $ signal and mixin request
 		var req = $.request;
-		// proxy any changes to req to signal
+		var res = $.response;
+		var $req = $;
+
+		if (safe) {
+			$.req = $.req || {};
+			$req = $.req;
+		}
+
 		var reqProxy = new Proxy(req, {
 			get: function (target, name) {
-				return name in target ? target[name] : $[name];
+				return name in target ? target[name] : $req[name];
 			},
 			set: function (target, prop, value, receiver) {
 				target[prop] = value;
-				$[prop] = value;
+				$req[prop] = value;
 				return true;
 			}
 		});
-		var res = $.response;
 
 		middleware(reqProxy, res, function (err) {
 			$.return();
@@ -26,3 +32,6 @@ function compatible (middleware) {
 }
 
 module.exports = compatible;
+module.exports.safe = function (middleware) {
+	return compatible(middleware, true);
+}
