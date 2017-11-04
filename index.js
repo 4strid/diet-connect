@@ -3,35 +3,38 @@
  * @return {function} middleware - dietjs style ($)
  * Proxies the signal object
  */
-function compatible (middleware, safe) {
+function compatible (middleware) {
 	return function ($) {
 		var req = $.request;
 		var res = $.response;
-		var $req = $;
 
-		if (safe) {
-			$.req = $.req || {};
-			$req = $.req;
-		}
-
-		var reqProxy = new Proxy(req, {
-			get: function (target, name) {
-				return name in target ? target[name] : $req[name];
+		var $req = new Proxy(req, {
+			defineProperty (target, prop, descriptor) {
+				return Object.defineProperty(target, prop, descriptor) &&
+					   Object.defineProperty($, prop, descriptor)
 			},
-			set: function (target, prop, value, receiver) {
+			has (target, prop) {
+				return prop in target || prop in $;
+			},
+			get (target, prop) {
+				return prop in target ? target[prop] : $[prop];
+			},
+			set (target, prop, value, receiver) {
+				$[prop] = value;
 				target[prop] = value;
-				$req[prop] = value;
 				return true;
+			},
+			deleteProperty (target, prop) {
+				return (delete $[prop]) && (delete target[prop])
 			}
 		});
 
-		middleware(reqProxy, res, function (err) {
+		middleware($req, res, function (err) {
+			if (err)
+				throw err
 			$.return();
 		});
 	}
 }
 
 module.exports = compatible;
-module.exports.safe = function (middleware) {
-	return compatible(middleware, true);
-}
