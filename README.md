@@ -1,5 +1,5 @@
 # diet-connect
-Compatibility layer for using Connect/Express middleware in diet apps
+Compatibility layer for using Connect/Express middleware in diet.js apps
 
 Use your favorite Express middleware out of the box
 
