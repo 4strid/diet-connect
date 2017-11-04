@@ -5,8 +5,8 @@
  */
 function compatible (middleware) {
 	return function ($) {
-		var req = $.request;
-		var res = $.response;
+		var req = $.request
+		var res = $.response
 
 		var $req = new Proxy(req, {
 			defineProperty (target, prop, descriptor) {
@@ -14,27 +14,27 @@ function compatible (middleware) {
 					   Object.defineProperty($, prop, descriptor)
 			},
 			has (target, prop) {
-				return prop in target || prop in $;
+				return prop in target || prop in $
 			},
 			get (target, prop) {
-				return prop in target ? target[prop] : $[prop];
+				return prop in target ? target[prop] : $[prop]
 			},
 			set (target, prop, value, receiver) {
-				$[prop] = value;
-				target[prop] = value;
-				return true;
+				$[prop] = value
+				target[prop] = value
+				return true
 			},
 			deleteProperty (target, prop) {
 				return (delete $[prop]) && (delete target[prop])
 			}
-		});
+		})
 
 		middleware($req, res, function (err) {
 			if (err)
 				throw err
-			$.return();
-		});
+			$.return()
+		})
 	}
 }
 
-module.exports = compatible;
+module.exports = compatible
