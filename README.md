@@ -28,3 +28,11 @@ app.get('/counter', function ($) {
 ```
 
 [Examples](https://github.com/cutejs/diet-connect-example)
+
+Contact
+-------
+Bug reports, feature requests, and questions are all welcome: open a GitHub issue and I'll get
+back to you.
+
+This is *especially true if a certain piece of middleware doesn't work*. Please open an issue
+and I'll see what we need to do to get compatibility.

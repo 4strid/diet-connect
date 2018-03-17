@@ -1,6 +1,6 @@
 {
   "name": "diet-connect",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Compatibility layer for using Connect/Express middleware in diet.js apps",
   "main": "index.js",
   "scripts": {
@@ -22,9 +22,9 @@
   "author": "Peter Fesz-Nguyen",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cutejs/diet-router/issues"
+    "url": "https://github.com/cutejs/diet-connect/issues"
   },
-  "homepage": "https://github.com/cutejs/diet-router#readme",
+  "homepage": "https://github.com/cutejs/diet-connect#readme",
   "devDependencies": {
     "diet": "^0.16.0",
     "request": "^2.83.0",
