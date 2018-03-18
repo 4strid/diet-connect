@@ -27,7 +27,14 @@ app.get('/counter', function ($) {
 // refresh the page to see the counter go up
 ```
 
+Examples
+--------
 [Examples](https://github.com/cutejs/diet-connect-example)
+
+Known Incompatible Modules
+--------------------------
+- `body-parser` Diet is inherently incompatible with Express' body parser, as Diet already does
+body parsing
 
 Contact
 -------
